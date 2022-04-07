@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+protoc_install_not_found="Please install protoc"
+which protoc &> /dev/null
+if [ $? -eq 1 ]
+then
+    echo ${protoc_install_not_found}
+    exit 1
+fi;
+
+protoc --go_out=plugins=grpc:./common/ ./common/model/*.proto

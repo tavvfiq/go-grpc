@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+import "google/protobuf/Empty.proto";
+
+package model;
+
+option go_package = "./model";
+
+message UserId {
+  string id = 1;
+}
+
+message BookingDetailAndUserId {
+  BookingDetail detail = 1;
+  string id = 2;
+}
+
+enum BookingType {
+  HOTEL = 0;
+  TRAIN = 1;
+  AIRPLANE = 2;
+  CONCERT = 3;
+}
+
+message BookingDetail {
+  string name = 1;
+  int32 total_price = 2;
+  BookingType type = 3;
+}
+
+message Booking {
+  string id = 1;
+  string user_id = 2;
+  BookingDetail detail = 3;
+}
+
+message BookingList {
+  repeated Booking list = 1;
+}
+
+message BookingListByUser {
+  map<string, BookingList> list = 1;
+}
+
+service Bookings {
+  rpc Create(BookingDetailAndUserId) returns (google.protobuf.Empty) {}
+  rpc List(UserId) returns (BookingList) {}
+}
